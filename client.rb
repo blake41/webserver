@@ -1,11 +1,12 @@
 require 'socket'
 clientSession = TCPSocket.new("10.242.11.101",8080)
-puts "log: saying Hello"
-clientSession.puts "Client: Hello Server World!\n"
-while !(clientSession.closed?) && (serverMessage = clientSession.gets)
-	puts serverMessage
-	if serverMessage.include?("Goodbye")
-		puts "log: closing connection"
-		clientSession.close
-	end
+while to_say = gets.chomp
+	break if to_say == "exit"
+	clientSession.puts "#{to_say}\n"
 end
+# while serverMessage = clientSession.gets
+# 	puts serverMessage
+# 		puts "log: closing connection"
+# 		clientSession.close
+# end
+clientSession.close
