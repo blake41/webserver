@@ -9,9 +9,6 @@ loop do
 			#{session.peeraddr[3]}"
 		while input = session.gets
 			puts input
-		# session.puts "Server: Welcome #{session.peeraddr[2]}\n"
-		# puts "log: sending goodbye"
-		# session.puts "Server: Goodbye\n"
 		end
 	end
 end
