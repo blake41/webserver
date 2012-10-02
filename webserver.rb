@@ -1,14 +1,10 @@
-
-def show_threads
-	puts "#{Thread.list.count} threads"
-end
-
 require 'socket'
 puts 'starting up server'
-show_threads
+
 server = TCPServer.new(8080)
-while session = server.accept
-	Thread.new do
+loop do 
+	session = server.accept
+	if fork
 		puts "connection established from #{session.peeraddr[2]} at
 			#{session.peeraddr[3]}"
 		while input = session.gets
@@ -18,5 +14,4 @@ while session = server.accept
 		# session.puts "Server: Goodbye\n"
 		end
 	end
-	show_threads
 end
