@@ -1,5 +1,11 @@
+
+def show_threads
+	puts "#{Thread.list.count} threads"
+end
+
 require 'socket'
 puts 'starting up server'
+show_threads
 server = TCPServer.new(8080)
 while session = server.accept
 	Thread.new do
@@ -12,4 +18,5 @@ while session = server.accept
 		# session.puts "Server: Goodbye\n"
 		end
 	end
+	show_threads
 end
