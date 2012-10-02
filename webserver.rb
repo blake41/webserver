@@ -2,16 +2,26 @@ require 'socket'
 puts 'starting up server'
 
 server = TCPServer.new(8080)
-loop do 
-	session = server.accept
-	if fork
-		puts "connection established from #{session.peeraddr[2]} at
-			#{session.peeraddr[3]}"
-		while input = session.gets
-			puts input
-		# session.puts "Server: Welcome #{session.peeraddr[2]}\n"
-		# puts "log: sending goodbye"
-		# session.puts "Server: Goodbye\n"
+
+workers = []
+num_workers = 2
+num_workers.times do
+	master, worker = UNIXSocket.pair
+	workers << worker
+	if !fork
+		loop do 
+			conn = master.recv_io
+			while input = conn.gets
+				puts "#{input} processed by #{Process.pid}"
+			end
 		end
 	end
+end
+
+loop do
+	connection = server.accept
+	w = workers.shift
+	w.send_io(connection)
+	connection.close
+	workers << w
 end
