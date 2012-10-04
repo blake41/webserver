@@ -27,13 +27,6 @@ class Server
 	Signal.trap(:INT) do
 		Process.kill(:INT, master_pid)
 	end
-	# loop do
-	# 	session = server.accept
-	# 	$PROGRAM_NAME = "Child Server"
-	# 	fork do
-
-	# 	end
-	# end
-
+	
 	Process.waitall
 end
