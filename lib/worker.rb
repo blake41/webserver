@@ -35,6 +35,7 @@ class Worker
       	break if bytes == "\r\n"
       	data << bytes
       end
+      data = data.join('')
       # Here we pass the data and the env into the http parser. It parses
       # the raw http request data and updates the env with all of the data
       # it can withdraw.

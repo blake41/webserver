@@ -1,6 +1,6 @@
 class Master
 
-	NUM_WORKERS = 1
+	NUM_WORKERS = 5
 
 	def initialize(socket)
 		@socket = socket
