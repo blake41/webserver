@@ -5,6 +5,7 @@ require 'master'
 require 'worker'
 require 'rack/server'
 require 'rack/builder'
+require 'stringio'
 
 class Server
 	port = 8080
@@ -17,9 +18,9 @@ class Server
 	server.listen(10)
 
 	puts "Parent process is #{Process.pid}"
-	$PROGRAM_NAME = "Socket Holder"
+	$PROGRAM_NAME = "Socket Holder Server"
 	master_pid = fork do
-		$PROGRAM_NAME = "Master"
+		$PROGRAM_NAME = "Master Server"
 		puts "spinning up master #{Process.pid}"
 		Master.new(server).start
 	end
@@ -27,6 +28,6 @@ class Server
 	Signal.trap(:INT) do
 		Process.kill(:INT, master_pid)
 	end
-	
+
 	Process.waitall
 end

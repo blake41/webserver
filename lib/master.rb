@@ -1,10 +1,10 @@
 class Master
 
-	NUM_WORKERS = 3
+	NUM_WORKERS = 1
 
 	def initialize(socket)
 		@socket = socket
-		@app = Rack::Builder.parse_file("#{File.expand_path File.dirname(__FILE__)}/../../sample_rails/config.ru")
+		@app, options = Rack::Builder.parse_file("#{File.expand_path File.dirname(__FILE__)}/../../sample_rails/config.ru")
 	end
 
 	def start
@@ -12,7 +12,7 @@ class Master
 		NUM_WORKERS.times do
 			pid = fork do
 				puts "spinning up worker process #{Process.pid}"
-				$PROGRAM_NAME = "Worker"
+				$PROGRAM_NAME = "Worker Server"
 				start_workers
 			end
 			@wpids << pid
@@ -26,9 +26,11 @@ class Master
 	end
 
 	def trap_signals
-		Signal.trap(:INT) do
-			@wpids.each do |wpid|
-				Process.kill(:INT, wpid)
+		[:INT, :QUIT].each do |signal|
+			Signal.trap(signal) do
+				@wpids.each do |wpid|
+					Process.kill(signal, wpid)
+				end
 			end
 		end
 	end
