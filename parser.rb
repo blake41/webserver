@@ -6,18 +6,16 @@ class Parser
 
 	def initialize(http_strings)
 		@http_strings = http_strings
-		debugger
 		self.http_strings.collect(&:chomp)
+		self.headers = {}
 	end
 
 	def parse
-		debugger
 		self.headers[:method] = self.parse_method(self.http_strings[0])[0]
 		return self.headers
 	end
 
 	def parse_method(method_string)
-		debugger
 		method_string.split(/\//).collect(&:strip)
 	end
 
