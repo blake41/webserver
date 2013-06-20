@@ -4,7 +4,7 @@ class Master
 
 	def initialize(socket)
 		@socket = socket
-		@app, options = Rack::Builder.parse_file("#{File.expand_path File.dirname(__FILE__)}/../../sample_rails/config.ru")
+		@app, options = Rack::Builder.parse_file("#{File.expand_path File.dirname(__FILE__)}/../bare_rails/sample_rails/config.ru")
 	end
 
 	def start
