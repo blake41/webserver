@@ -1,5 +1,4 @@
 require 'socket'
-require 'debugger'
 require 'spyglass_parser'
 require 'master'
 require 'worker'
